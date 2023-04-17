@@ -1,0 +1,15 @@
+import express, { Application, Request, Response } from "express";
+
+const app: Application = express();
+const port = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("Restu Ganteng");
+});
+
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
+});
