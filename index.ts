@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Restu Ganteng");
+  res.send("Restu Ganteng banget");
 });
 
 app.listen(port, () => {
