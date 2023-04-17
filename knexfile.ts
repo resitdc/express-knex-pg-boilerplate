@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import path from "path";
 
 const knexConfig: Knex.Config = {
   client: "postgresql",
@@ -14,7 +15,7 @@ const knexConfig: Knex.Config = {
   },
   migrations: {
     tableName: "knex_migrations",
-    directory: __dirname + "/database/migrations"
+    directory: path.join(__dirname, "src/database/migrations")
   }
 };
 
