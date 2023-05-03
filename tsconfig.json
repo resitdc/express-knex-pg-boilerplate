@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "#src/*": ["*"],
+      "#src/*": ["src/*"],
       "#r/*": ["src/routes/*"],
       "#mw/*": ["src/middlewares/*"],
       "#c/*": ["src/controllers/*"],
