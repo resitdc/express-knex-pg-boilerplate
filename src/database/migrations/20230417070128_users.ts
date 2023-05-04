@@ -14,8 +14,8 @@ export const up = async (knex: Knex): Promise<void> => {
     t.enu("role", ["SUPERUSER", "ADMIN", "USER"]).defaultTo("USER");
     t.boolean("is_active").defaultTo(false);
     t.boolean("is_verified").defaultTo(false);
-    t.timestamp("created_at").defaultTo(knex.fn.now());
-    t.timestamp("updated_at").nullable();
+    t.timestamp("created_at", { useTz: true }).defaultTo(knex.fn.now());
+    t.timestamp("updated_at", { useTz: true }).nullable();
     t.datetime("deleted_at").nullable();
   });
 };
