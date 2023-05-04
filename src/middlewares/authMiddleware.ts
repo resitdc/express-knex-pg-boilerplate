@@ -7,7 +7,11 @@ dotenv.config();
 
 interface UserPayload {
   id: string;
+  role: string;
+  username: string;
   email: string;
+  name: string;
+  isVerified: string;
 }
 
 declare global {
