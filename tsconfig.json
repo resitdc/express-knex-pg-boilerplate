@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
+    "moduleResolution": "node",
+    "baseUrl": "./",
     "target": "es6",
     "module": "commonjs",
     "outDir": "dist",
@@ -8,14 +9,16 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
-      "#src/*": ["src/*"],
-      "#r/*": ["src/routes/*"],
-      "#mw/*": ["src/middlewares/*"],
-      "#c/*": ["src/controllers/*"],
-      "#m/*": ["src/models/*"],
-      "#u/*": ["src/utils/*"],
-      "#cf/*": ["src/config/*"]
+      "src/*": ["src/*"],
+      "routes/*": ["src/routes/*"],
+      "middlewares/*": ["src/middlewares/*"],
+      "controllers/*": ["src/controllers/*"],
+      "models/*": ["src/models/*"],
+      "utils/*": ["src/utils/*"],
+      "config/*": ["src/config/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }
