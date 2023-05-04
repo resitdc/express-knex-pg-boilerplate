@@ -25,7 +25,7 @@ interface ErrorResponse {
 
 export const errorResponse = (
   message: string,
-  results: object
+  results?: object
 ): ErrorResponse => {
   let response: ErrorResponse = {
     success: false,
@@ -65,15 +65,15 @@ export const paginationResponse = (
 interface AuthResponse {
   success: boolean;
   message: string;
-  accessToken: string;
-  userData: object;
+  accessToken?: string | null;
+  userData?: object | null;
 }
 
 export const authResponse = (
   status: boolean,
   message: string,
-  token: string,
-  user: object
+  token?: string,
+  user?: object
 ): AuthResponse => {
   return {
     success: status,
