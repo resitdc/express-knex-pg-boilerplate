@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import authSecret from "../../config/auth";
-import { authResponse } from "../../utils/response";
+import { generateId } from "../../utils/helpers";
+import { authResponse, successResponse, errorResponse } from "../../utils/response";
 import Users from "../../models/Users";
 
 export const login = async (req: Request, res: Response) => {
@@ -60,5 +61,40 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const register = async (req: Request, res: Response) => {
-  res.send("Register Page");
+  const { name, password, email } = req.body;
+  
+  try {
+    const id: string = generateId(name);
+    const hashedPassword: string = await bcrypt.hash(password, 13);
+    
+    interface FormData {
+      id: string;
+      name: string;
+      password: string;
+      email: string;
+      is_verified: boolean;
+      is_active: boolean;
+    }
+    
+    const formData: FormData = {
+      id,
+      name,
+      email,
+      password: hashedPassword,
+      is_verified: false,
+      is_active: true
+    };
+    
+    const user = await Users.query().insert(formData);
+    const { is_verified, is_active, ...rest } = user;
+    const updatedUser = { ...rest, isVerified: is_verified, isActive: is_active };
+    
+    res.status(200).json(
+      successResponse("Success", { results: updatedUser })
+    );
+  } catch (error) {
+    res.status(504).json(
+      errorResponse("Internal server error", { results: null })
+    );
+  }
 };
