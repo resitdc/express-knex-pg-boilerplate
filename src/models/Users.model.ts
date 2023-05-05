@@ -4,13 +4,11 @@ import knex from "../config/connection";
 Model.knex(knex);
 
 class Users extends Model {
-  static tableName = "users";
-
   id!: string;
   name?: string;
-  username?: string;
-  phone?: string;
-  email?: string;
+  username?: string | null;
+  phone?: string | null;
+  email?: string | null;
   password!: string;
   gender?: "MALE" | "FEMALE" | null;
   avatar?: string;
@@ -19,8 +17,27 @@ class Users extends Model {
   is_verified?: boolean;
   created_at?: Date;
   updated_at?: Date;
-  deleted_at?: Date | null;
+  deleted_at?: string | null;
 
+  static get tableName() {
+    return "users";
+  }
+  
+  static querySoftDelete(...args: any) {
+    return super.query(...args).whereNull("users.deleted_at");
+  }
+
+  static async softDelete(id: string): Promise<void> {
+    await Users.query()
+      .findById(id)
+      .patch({
+        username: Users.raw("NULL"),
+        phone: Users.raw("NULL"),
+        email: Users.raw("NULL"),
+        deleted_at: new Date().toISOString()
+      });
+  }
+  
   static get jsonSchema() {
     return {
       type: "object",
