@@ -18,7 +18,9 @@
       "models/*": ["src/models/*"],
       "utils/*": ["src/utils/*"],
       "config/*": ["src/config/*"]
-    }
+    },
+    "types": ["node","objection"],
   },
+  "types": ["node","objection"],
   "exclude": ["node_modules", "dist"]
 }
