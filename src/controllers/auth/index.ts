@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import authSecret from "../../config/auth";
 import { generateId } from "../../utils/helpers";
 import { authResponse, successResponse, errorResponse } from "../../utils/response";
-import Users from "../../models/Users";
+import Users from "../../models/Users.model";
 
 export const login = async (req: Request, res: Response) => {
   const { user, password } = req.body;
@@ -85,7 +85,7 @@ export const register = async (req: Request, res: Response) => {
       is_active: true
     };
 
-    const isUserExist = await Users.query().findOne({"users.email": email});
+    const isUserExist = await Users.querySoftDelete().findOne({"users.email": email});
 
     if (isUserExist) {
       res.status(409).json(
