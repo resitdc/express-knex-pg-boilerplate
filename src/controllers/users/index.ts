@@ -152,17 +152,26 @@ export const createData = async (req: Request, res: Response) => {
       const updatedUser = { ...rest, isVerified: is_verified, isActive: is_active };
       
       res.status(201).json(
-        successResponse("Success", { results: updatedUser })
+        successResponse("Success", {
+          errors: null,
+          results: updatedUser
+        })
       );
     }
   } catch (error: unknown) {
     if (error instanceof Error) {
       res.status(500).json(
-        errorResponse(error?.message, { results: null })
+        errorResponse(error?.message, {
+          errors: null,
+          results: null
+        })
       );
     } else {
       res.status(500).json(
-        errorResponse("Internal server error", { results: null })
+        errorResponse("Internal server error", {
+          errors: null,
+          results: null
+        })
       );
     }
   }
