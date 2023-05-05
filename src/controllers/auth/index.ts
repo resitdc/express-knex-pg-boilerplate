@@ -61,11 +61,11 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const register = async (req: Request, res: Response) => {
-  const { name, password, email } = req.body;
+  const { name, password: formPassword, email } = req.body;
   
   try {
     const id: string = generateId(name);
-    const hashedPassword: string = await bcrypt.hash(password, 13);
+    const hashedPassword: string = await bcrypt.hash(formPassword, 13);
     
     interface FormData {
       id: string;
@@ -84,14 +84,22 @@ export const register = async (req: Request, res: Response) => {
       is_verified: false,
       is_active: true
     };
-    
-    const user = await Users.query().insert(formData);
-    const { is_verified, is_active, ...rest } = user;
-    const updatedUser = { ...rest, isVerified: is_verified, isActive: is_active };
-    
-    res.status(200).json(
-      successResponse("Success", { results: updatedUser })
-    );
+
+    const isUserExist = await Users.query().findOne({"users.email": email});
+
+    if (isUserExist) {
+      res.status(409).json(
+        errorResponse("Email already exists", { results: null })
+      );
+    } else {
+      const user = await Users.query().insert(formData);
+      const { password, is_verified, is_active, ...rest } = user;
+      const updatedUser = { ...rest, isVerified: is_verified, isActive: is_active };
+      
+      res.status(201).json(
+        successResponse("Success", { results: updatedUser })
+      );
+    }
   } catch (error) {
     res.status(504).json(
       errorResponse("Internal server error", { results: null })
